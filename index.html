@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkUp</title>
+    <title>LinkUp - Logowanie</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,24 +12,35 @@
             <h1>LinkUp</h1>
         </div>
         <ul class="menu">
-            <li><a href="#">Friends</a></li>
-            <li><a href="#">Grupy</a></li>
-            <li><a href="#">Add Friend</a></li>
+            <li><a href="#" id="friendsTab">Friends</a></li>
+            <li><a href="#" id="groupsTab">Grupy</a></li>
+            <li><a href="#" id="logoutTab" style="display:none;">Logout</a></li>
         </ul>
     </div>
     <div class="content">
-        <div class="top-bar">
-            <button class="tab active">Friends</button>
-            <button class="tab">All</button>
-            <button class="tab">Soon</button>
-            <button class="add-friend">Add Friend</button>
-        </div>
-        <div class="chat-section">
-            <form class="add-friend-form" id="addFriendForm">
-                <input type="text" id="friendName" placeholder="Wprowadź nazwę użytkownika" required>
-                <button type="submit">Dodaj znajomego</button>
+        <div id="loginSection">
+            <h2>Logowanie</h2>
+            <form id="loginForm">
+                <input type="text" id="loginUsername" placeholder="Nazwa użytkownika" required>
+                <input type="password" id="loginPassword" placeholder="Hasło" required>
+                <button type="submit">Zaloguj się</button>
             </form>
-            <ul id="friendsList"></ul>
+            <p>Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
+        </div>
+
+        <div id="chatSection" style="display:none;">
+            <div class="top-bar">
+                <button class="tab active" id="friendsTabActive">Friends</button>
+                <button class="tab" id="groupsTabActive">Grupy</button>
+                <button class="add-friend">Add Friend</button>
+            </div>
+            <div class="chat-section">
+                <form class="add-friend-form" id="addFriendForm">
+                    <input type="text" id="friendName" placeholder="Wprowadź nazwę użytkownika" required>
+                    <button type="submit">Dodaj znajomego</button>
+                </form>
+                <ul id="friendsList"></ul>
+            </div>
         </div>
     </div>
 
@@ -38,17 +49,54 @@
         const friendNameInput = document.getElementById('friendName');
         const friendsList = document.getElementById('friendsList');
 
-        addFriendForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Zatrzymaj domyślną akcję formularza
+        const loginForm = document.getElementById('loginForm');
+        const loginUsernameInput = document.getElementById('loginUsername');
+        const loginPasswordInput = document.getElementById('loginPassword');
 
-            const friendName = friendNameInput.value.trim(); // Pobierz wartość z pola
+        const loginSection = document.getElementById('loginSection');
+        const chatSection = document.getElementById('chatSection');
+        const logoutTab = document.getElementById('logoutTab');
+
+        // Obsługa logowania
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = loginUsernameInput.value.trim();
+            const password = loginPasswordInput.value.trim();
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(user => user.username === username && user.password === password);
+
+            if (user) {
+                alert('Zalogowano pomyślnie!');
+                loginSection.style.display = 'none';
+                chatSection.style.display = 'block';
+                logoutTab.style.display = 'block';
+            } else {
+                alert('Błędna nazwa użytkownika lub hasło.');
+            }
+        });
+
+        // Dodawanie znajomych
+        addFriendForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const friendName = friendNameInput.value.trim();
 
             if (friendName) {
-                const li = document.createElement('li'); // Utwórz nowy element listy
-                li.textContent = friendName; // Ustaw tekst na nazwę znajomego
-                friendsList.appendChild(li); // Dodaj element do listy
-                friendNameInput.value = ''; // Wyczyść pole tekstowe
+                const li = document.createElement('li');
+                li.textContent = friendName;
+                friendsList.appendChild(li);
+                friendNameInput.value = '';
             }
+        });
+
+        // Logout
+        logoutTab.addEventListener('click', function() {
+            loginSection.style.display = 'block';
+            chatSection.style.display = 'none';
+            logoutTab.style.display = 'none';
+            friendsList.innerHTML = ''; // Clear the friends list on logout
         });
     </script>
 </body>
