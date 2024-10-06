@@ -25,8 +25,31 @@
             <button class="add-friend">Add Friend</button>
         </div>
         <div class="chat-section">
-            <p></p>
+            <form class="add-friend-form" id="addFriendForm">
+                <input type="text" id="friendName" placeholder="Wprowadź nazwę użytkownika" required>
+                <button type="submit">Dodaj znajomego</button>
+            </form>
+            <ul id="friendsList"></ul>
         </div>
     </div>
+
+    <script>
+        const addFriendForm = document.getElementById('addFriendForm');
+        const friendNameInput = document.getElementById('friendName');
+        const friendsList = document.getElementById('friendsList');
+
+        addFriendForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Zatrzymaj domyślną akcję formularza
+
+            const friendName = friendNameInput.value.trim(); // Pobierz wartość z pola
+
+            if (friendName) {
+                const li = document.createElement('li'); // Utwórz nowy element listy
+                li.textContent = friendName; // Ustaw tekst na nazwę znajomego
+                friendsList.appendChild(li); // Dodaj element do listy
+                friendNameInput.value = ''; // Wyczyść pole tekstowe
+            }
+        });
+    </script>
 </body>
 </html>
