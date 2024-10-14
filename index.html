@@ -3,101 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkUp - Logowanie</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Oficjalna strona serwera CodeSphere | Polska">
+    <title>CodeSphere</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+        h1 {
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <h1>LinkUp</h1>
-        </div>
-        <ul class="menu">
-            <li><a href="#" id="friendsTab">Friends</a></li>
-            <li><a href="#" id="groupsTab">Grupy</a></li>
-            <li><a href="#" id="logoutTab" style="display:none;">Logout</a></li>
-        </ul>
-    </div>
-    <div class="content">
-        <div id="loginSection">
-            <h2>Logowanie</h2>
-            <form id="loginForm">
-                <input type="text" id="loginUsername" placeholder="Nazwa użytkownika" required>
-                <input type="password" id="loginPassword" placeholder="Hasło" required>
-                <button type="submit">Zaloguj się</button>
-            </form>
-            <p>Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
-        </div>
 
-        <div id="chatSection" style="display:none;">
-            <div class="top-bar">
-                <button class="tab active" id="friendsTabActive">Friends</button>
-                <button class="tab" id="groupsTabActive">Grupy</button>
-                <button class="add-friend">Add Friend</button>
-            </div>
-            <div class="chat-section">
-                <form class="add-friend-form" id="addFriendForm">
-                    <input type="text" id="friendName" placeholder="Wprowadź nazwę użytkownika" required>
-                    <button type="submit">Dodaj znajomego</button>
-                </form>
-                <ul id="friendsList"></ul>
-            </div>
-        </div>
-    </div>
+<header>
+    <h1>Witamy na serwerze CodeSphere | Polska</h1>
+</header>
 
-    <script>
-        const addFriendForm = document.getElementById('addFriendForm');
-        const friendNameInput = document.getElementById('friendName');
-        const friendsList = document.getElementById('friendsList');
+<section>
+    <h2>O naszym serwerze</h2>
+    <p>CodeSphere to miejsce dla wszystkich programistów z Polski. Dołącz do nas, aby dzielić się wiedzą, uczyć się i budować ciekawe projekty!</p>
+    <a href="https://discord.gg/example">Dołącz do naszego Discorda!</a>
+</section>
 
-        const loginForm = document.getElementById('loginForm');
-        const loginUsernameInput = document.getElementById('loginUsername');
-        const loginPasswordInput = document.getElementById('loginPassword');
+<footer>
+    <p>&copy; 2024 CodeSphere</p>
+</footer>
 
-        const loginSection = document.getElementById('loginSection');
-        const chatSection = document.getElementById('chatSection');
-        const logoutTab = document.getElementById('logoutTab');
-
-        // Obsługa logowania
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const username = loginUsernameInput.value.trim();
-            const password = loginPasswordInput.value.trim();
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-
-            const user = users.find(user => user.username === username && user.password === password);
-
-            if (user) {
-                alert('Zalogowano pomyślnie!');
-                loginSection.style.display = 'none';
-                chatSection.style.display = 'block';
-                logoutTab.style.display = 'block';
-            } else {
-                alert('Błędna nazwa użytkownika lub hasło.');
-            }
-        });
-
-        // Dodawanie znajomych
-        addFriendForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const friendName = friendNameInput.value.trim();
-
-            if (friendName) {
-                const li = document.createElement('li');
-                li.textContent = friendName;
-                friendsList.appendChild(li);
-                friendNameInput.value = '';
-            }
-        });
-
-        // Logout
-        logoutTab.addEventListener('click', function() {
-            loginSection.style.display = 'block';
-            chatSection.style.display = 'none';
-            logoutTab.style.display = 'none';
-            friendsList.innerHTML = ''; // Clear the friends list on logout
-        });
-    </script>
 </body>
 </html>
